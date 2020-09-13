@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BloodBankManager::class, mappedBy="user")
+     */
+    private $managedBloodBanks;
+
+    public function __construct()
+    {
+        $this->managedBloodBanks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +139,37 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BloodBankManager[]
+     */
+    public function getManagedBloodBanks(): Collection
+    {
+        return $this->managedBloodBanks;
+    }
+
+    public function addManagedBloodBank(BloodBankManager $managedBloodBank): self
+    {
+        if (!$this->managedBloodBanks->contains($managedBloodBank)) {
+            $this->managedBloodBanks[] = $managedBloodBank;
+            $managedBloodBank->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManagedBloodBank(BloodBankManager $managedBloodBank): self
+    {
+        if ($this->managedBloodBanks->contains($managedBloodBank)) {
+            $this->managedBloodBanks->removeElement($managedBloodBank);
+            // set the owning side to null (unless already changed)
+            if ($managedBloodBank->getUser() === $this) {
+                $managedBloodBank->setUser(null);
+            }
+        }
 
         return $this;
     }
