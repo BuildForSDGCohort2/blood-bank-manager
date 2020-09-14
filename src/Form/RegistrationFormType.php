@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -46,6 +47,15 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('bloodBankCodeName', TextType::class, [
                 'mapped' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern'   =>  "#^([a-zA-Z0-9]+-?[a-zA-Z0-9]+)+$#"
+                    ]),
+                    new Length([
+                        'min'   =>  4,
+                        'max'   =>  50
+                    ])
+                ]
             ])
         ;
     }

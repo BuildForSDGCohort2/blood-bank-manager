@@ -6,9 +6,12 @@ use App\Repository\BloodBankRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BloodBankRepository::class)
+ * @UniqueEntity(fields={"codeName"}, message="There is already an blood bank with this code name")
  */
 class BloodBank
 {
@@ -36,12 +39,15 @@ class BloodBank
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Regex("#^([a-zA-Z0-9]+-?[a-zA-Z0-9]+)+$#")
+     * @Assert\Length(min=4, max=50)
      */
     private $codeName;
 
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\Type("bool")
      */
     private $isSetup = false;
 
