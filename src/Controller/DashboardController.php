@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BloodBank;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,12 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/{codeName}/dashboardgi", name="dashboard")
+     * @Route("/{codeName}/dashboard", name="dashboard")
      */
-    public function index()
+    public function index(BloodBank $bloodBank)
     {
         return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'bloodBank' =>  $bloodBank,
         ]);
     }
 }
