@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
- * @Route("/bloodbank")
+ * @Route("/blood-bank")
  */
 class BloodBankController extends AbstractController
 {
@@ -33,7 +33,7 @@ class BloodBankController extends AbstractController
     public function index()
     {
         return $this->render('blood_bank/index.html.twig', [
-            'controller_name' => 'BloodBankController',
+            
         ]);
     }
 
@@ -58,7 +58,9 @@ class BloodBankController extends AbstractController
 
             $this->flashy->success('Your Blood Bank is ready to use!');
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard', [
+                'codeName'  =>  $bloodBank->getCodeName()
+            ]);
         }
 
         return $this->render('blood_bank/setup.html.twig', [

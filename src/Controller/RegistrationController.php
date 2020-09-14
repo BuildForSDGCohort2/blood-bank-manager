@@ -45,7 +45,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppLoginFormAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('blood_bank');
         }
 
         $user = new User();
@@ -125,6 +125,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->flashy->success('Your email address has been verified.');
 
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('app_login');
     }
 }
