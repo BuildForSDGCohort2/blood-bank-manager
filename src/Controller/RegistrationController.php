@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\EmailVerifier;
+use App\Utils\BloodBankRegister;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
 use App\Security\AppLoginFormAuthenticator;
+use App\Utils\BloodBnakManagerRegister;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use MercurySeries\FlashyBundle\FlashyNotifier;
@@ -15,26 +17,35 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    use TargetPathTrait;
+
     private $emailVerifier;
     private $flashy;
+    private $bloodBankRegister;
+    private $bloodBnakManagerRegister;
 
-    public function __construct(EmailVerifier $emailVerifier, FlashyNotifier $flashy)
+    public function __construct(EmailVerifier $emailVerifier, FlashyNotifier $flashy, BloodBankRegister $bloodBankRegister, BloodBnakManagerRegister $bloodBnakManagerRegister)
     {
         $this->emailVerifier = $emailVerifier;
         $this->flashy = $flashy;
+        $this->bloodBankRegister = $bloodBankRegister;
+        $this->bloodBnakManagerRegister = $bloodBnakManagerRegister;
     }
 
     /**
+     * Register a new user, create a new blood bank and put this user as administrator
+     * 
      * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppLoginFormAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('blood_bank');
         }
 
         $user = new User();
@@ -62,7 +73,22 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
+            // create bloodBank
+            $bloodBank = $this->bloodBankRegister->create(
+                $form->get('bloodBankCodeName')->getData()
+            );
+
+            // create bloodBankManager and set this user such as admin
+            $this->bloodBnakManagerRegister->create($user, $bloodBank);
+
+            // set target path after success authentication for setup blood bank
+            $this->saveTargetPath(
+                $this->get('session'),
+                'main', // firewall name in security.yaml
+                $this->generateUrl('blood_bank_setup', [
+                    'id' => $bloodBank->getId()
+                ])
+            );
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -70,6 +96,8 @@ class RegistrationController extends AbstractController
                 $authenticator,
                 'main' // firewall name in security.yaml
             );
+
+
         }
 
         return $this->render('registration/register.html.twig', [
@@ -97,6 +125,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->flashy->success('Your email address has been verified.');
 
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('app_login');
     }
 }

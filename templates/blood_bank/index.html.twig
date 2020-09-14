@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BloodBankController!{% endblock %}
+
+{% block body %}
+<ul>
+    {% for managedbloodbank in app.user.managedBloodBanks %}
+    <li>
+        <a href="{{ path('dashboard', {codeName: managedbloodbank.bloodbank.codename}) }}">{{ managedbloodbank.bloodbank.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

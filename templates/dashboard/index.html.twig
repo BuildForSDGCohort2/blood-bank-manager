@@ -1,20 +1,61 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Hello DashboardController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block page_title %}Administration{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% block main %}
+<div class="row">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/bloodbank-manager/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/bloodbank-manager/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-    </ul>
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Sales</span>
+                <span class="info-box-number">760</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-tag"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Inventory</span>
+                <span class="info-box-number">41,410</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="info-box">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-trash-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Expired soon</span>
+                <span class="info-box-number">
+                    10
+                    <small>%</small>
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
 </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('adminlte/dist/js/pages/dashboard2.js') }}"></script>
 {% endblock %}
