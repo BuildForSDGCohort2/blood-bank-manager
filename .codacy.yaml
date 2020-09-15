@@ -1,2 +1,3 @@
 exclude_paths:
-  - './public/adminlte/plugins/*'
+  - 'public/adminlte/plugins/**'
+  
