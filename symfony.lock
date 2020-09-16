@@ -446,6 +446,9 @@
     "symfony/stopwatch": {
         "version": "v4.4.11"
     },
+    "symfony/string": {
+        "version": "v5.1.5"
+    },
     "symfony/test-pack": {
         "version": "v1.0.6"
     },
