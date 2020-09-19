@@ -2,16 +2,56 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\BloodBank;
+use App\Entity\BloodBankManager;
+use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $user = new User;
+        $password = $this->encoder->encodePassword($user, 'theAdmin');
+
+        $user
+            ->setEmail('mike@gmail.com')
+            ->setPassword($password)
+            ->setIsVerified(true)
+            ;
+        $manager->persist($user);
+
+        $bloodBank = (new BloodBank)
+                                ->setCodeName('123ef-ffdr')
+                                ->setName('GHMK')
+                            ;
+        $manager->persist($bloodBank);
+
+        $bloodBankManager = new BloodBankManager;
+        $manager->persist($bloodBankManager);
+        
+        $user->addManagedBloodBank($bloodBankManager);
+        $bloodBank->addManager($bloodBankManager);
+
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            BloodGroupFixtures::class,
+            BloodProductsTypeFixtures::class,
+        );
     }
 }

@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}BloodProduct index{% endblock %}
+
+{% block main %}
+<h3 class="h3 font-weight-bold">Blood products</h3>
+
+<div class="my-2">
+    <a href="{{ path('blood_product_new', {'codeName': app.session.get('bloodBank').codename}) }}" class="btn btn-primary shadow-sm rounded-sm">Add product</a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap text-center">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Available</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blood_product in blood_products %}
+                        <tr>
+                            <td>{{ blood_product.name }} ml</td>
+                            <td>{{ blood_product.price }} {{ blood_product.currency }}</td>
+                            <td>{{ blood_product.availableStock }} in stock</td>
+                            <td>
+                                <a
+                                    href="{{ path('blood_product_edit', {'id': blood_product.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i class="fa fa-eye"></i></a>
+                                <a
+                                    href="{{ path('blood_product_edit', {'id': blood_product.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+
+{% endblock %}

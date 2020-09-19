@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Edit stock{% endblock %}
+
+{% block main %}
+<div class="row mb-1">
+    <div class="col">
+        <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codeName}) }}"
+            class="text-decorarion-none" style="color: #00000080; font-size: small;"><i class="fa fa-arrow-left"></i>
+            Inventory</a>
+    </div>
+</div>
+<h3 class="h3 font-weight-bold">Edit stock</h3>
+
+
+<div class="row">
+    <div class="col-md-6 card p-4">
+        {{ include('blood_product_stock/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+</div>
+
+<div class="row my-2">
+    <div class="col">
+        {{ include('blood_product_stock/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

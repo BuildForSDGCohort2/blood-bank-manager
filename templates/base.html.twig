@@ -3,10 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
+
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

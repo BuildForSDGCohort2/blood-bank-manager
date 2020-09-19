@@ -51,9 +51,22 @@ class BloodBank
      */
     private $isSetup = false;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity=BloodProductStock::class, mappedBy="bloodBank", orphanRemoval=true)
+     */
+    private $stocks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BloodProduct::class, mappedBy="bloodBank", orphanRemoval=true)
+     */
+    private $products;
+
     public function __construct()
     {
         $this->managers = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +149,73 @@ class BloodBank
     public function setIsSetup(bool $isSetup): self
     {
         $this->isSetup = $isSetup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BloodProductStock[]
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(BloodProductStock $stock): self
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks[] = $stock;
+            $stock->setBloodbank($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(BloodProductStock $stock): self
+    {
+        if ($this->stocks->contains($stock)) {
+            $this->stocks->removeElement($stock);
+            // set the owning side to null (unless already changed)
+            if ($stock->getBloodbank() === $this) {
+                $stock->setBloodbank(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIsSetup(): ?bool
+    {
+        return $this->isSetup;
+    }
+
+    /**
+     * @return Collection|BloodProduct[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(BloodProduct $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setBloodBank($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(BloodProduct $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getBloodBank() === $this) {
+                $product->setBloodBank(null);
+            }
+        }
 
         return $this;
     }
