@@ -1,20 +1,85 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Homepage</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+</head>
+<body class="">
+	<header class="vh-100 d-flex justify-content-center  align-items-center">
+		<div class="container">
+			<div class="row mb-5 pb-3">
+				<h1 class="h1 text-center mx-auto font-weight-bold col-12" style="color: white;">BloodBank Search <i class="fa fa-search fa-sm"></i></h1>
+				<p class="text-center mx-auto col-12" style="color: white;">
+					<!-- Trouvez rapidement la banque de sang la plus proche ayant le stock recherché -->
+						Quickly find the nearest blood bank with the required stock
+					</p>
+			</div>
+			<form action="" class="row mb-5 pb-5" method="GET" id="search_form">
+				<!-- <div class="col-md-4 mb-3">
+					<select name="product" id="product" class="form-control form-control-lg rounded-pill w-100">
+						<option value="blood">Blood</option>
+					</select>
+				</div> -->
+				<div class="col-md-4 mb-3">
+					<select name="group" id="group" class="form-control form-control-lg rounded-pill w-100-">
+						<option value="a+">A+ (a positif)</option>
+						<option value="a-">A- (a négatif)</option>
+						<option value="b+">B+ (b positif)</option>
+						<option value="b-">B- (b négatif)</option>
+						<option value="ab+">AB+ (ab positif)</option>
+						<option value="ab-">AB- (ab négatif)</option>
+						<option value="o+">O+ (o positif)</option>
+						<option value="o-">O- (o négatif)</option>
+					</select>
+				</div>
+				<!-- <div class="col-md-4 mb-3">
+					<select name="rhesus" id="rhesus" class="form-control form-control-lg w-100">
+						<option value=""></option>
+					</select>
+				</div> -->
+				<div class="col-md-4 mb-3">
+					<input type="number" class="form-control form-control-lg rounded-pill w-100-" placeholder="Volume (e.g: 400mg)">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <input type="number" class="form-control form-control-lg rounded-pill w-100-" placeholder="Quanity (e.g: 400mg)">
+                </div>
 
-{% block title %}Hello HomeController!{% endblock %}
+				<div class="col-md-6 mb-3 mt-3 mx-auto">
+					<button type="submit" class="btn btn-info btn-lg w-100  rounded-pill">Rechercher <i class="fa fa-search fa-sm"></i></button>
+				</div>
+				<div class="col-md-6 mb-3 mt-3 mx-auto">
+					<button type="submit" class="btn btn-info btn-lg w-100 rounded-pill">Recherche vocale <i class="fa fa-microphone-alt"></i></button>
+				</div>
+            </form>
+            
+            <div class="row">
+                <div class="col text-center">
+                    <a href="{{ path('app_register') }}" class="btn btn-lg text-decoration-none" style="color: white;">Register</a>
+                    <a href="{{ path('app_login') }}" class="btn btn-lg text-decoration-none" style="color: white;">Login</a>
+                </div>
+            </div>
+		</div>
+	</header>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello! ✅</h1>
 
-    
-    <ul>
-        <li>Registration form: <a href="{{ path('app_register') }}" class="text-decoration-none">Register</a></li>
-        <li>Login form: <a href="{{ path('app_login') }}" class="text-decoration-none">Login</a></li>
-    </ul>
-</div>
-{% endblock %}
+
+
+    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script>
+		$(function(){
+			$('#search_form').on('submit', function(e){
+				e.preventDefault();
+				alert('Ok!');
+			})
+		});
+	</script>
+</body>
+</html>

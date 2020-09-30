@@ -1,0 +1,13 @@
+body {
+	background-color: #1c1c1c;
+}
+
+* {
+	transition-property: all;
+	/*transition-duration: 0.3s;*/
+	transition-delay: 3s;
+}
+
+header {
+	background-image: url('./../img/slider-bg-1.png');
+}
