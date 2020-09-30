@@ -1,15 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup</title>
-</head>
-<body>
-    <form action="{{ path('blood_bank_setup', {id: bloodbank.id}) }}" method="post">
-        {{ form_widget(setupForm) }}
+{% extends 'base.html.twig' %}
 
-        <button type="submit">Finish</button>
-    </form>
-</body>
-</html>
+{% block title %}Setup your blood bank{% endblock %}
+
+{% block pageName %}login-page{% endblock %}
+
+{% block body %}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/"><b>BloodBank</b>Manager</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Setup your blood bank</p>
+
+            <form method="post">
+                <div class="input-group mb-3">
+                    {{ form_widget(setupForm.name) }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form_widget(setupForm.address) }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                {{ form_rest(setupForm)}}
+
+                <div class="row float-right">
+                    <div class="col">
+                        <a href="{{ path('blood_bank') }}" class="btn btn-default">Skip</a>
+                        <button type="submit" class="btn btn-primary">Finish</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+{% endblock %}
