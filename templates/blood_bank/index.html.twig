@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BloodBankController!{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body{
+            background: #e9ecef;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto mt-5">
+            <h3 class="h3 text-center">
+                <img src="..." alt="">
+                BloodBank Manager
+            </h3>
+            <div class="card">
+                <div class="card-body">
+                    <p class="mt-2">Choose a blood bank</p>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        {% for managedbloodbank in app.user.managedBloodBanks %}
+                        <li class="list-group-item">
+                            <a href="{{ path('blood_bank', {codeName: managedbloodbank.bloodbank.codename}) }}">{{ managedbloodbank.bloodbank.name }}
+                                ({{ managedbloodbank.bloodbank.codeName }}) >>> </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <a href="{{ path('app_logout')}}" class="text-decoration-none" style="color: black;"><i
+                                class="fa fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,8 @@
+<form action="{{ path('blood_product_stock_new', {'codeName': app.session.get('bloodBank').codeName}) }}" method="post">
+    {{ form_widget(form) }}
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-primary">{{ button_label|default('Save product stock') }}</button>
+        </div>
+    </div>
+</form>

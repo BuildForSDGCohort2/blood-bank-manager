@@ -1,0 +1,7 @@
+body {
+	background-color: #edf2f9;
+}
+
+.navbar-vertical ul li > a{
+	color: black;
+}
