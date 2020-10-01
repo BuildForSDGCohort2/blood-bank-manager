@@ -219,4 +219,22 @@ class BloodBank
 
         return $this;
     }
+
+    public function isGranted(User $user, string $role): bool
+    {
+        $exist = $this->managers->exists(function ($key, $element) use ($user, $role) {
+            if ($element->getUser() == $user) {
+                // retrieve manager roles
+                $roles = $element->getRoles();
+
+                // verify if the manager have the required role
+                if (in_array($role, $roles)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        return $exist;
+    }
 }

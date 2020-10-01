@@ -3,18 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\BloodBank;
+use App\Utils\BloodBankRoles;
 use App\Form\BloodBankSetupFormType;
 use App\Repository\BloodBankRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Request;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Exception\LogicException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/blood-bank")
+ * @Route("/blood-banks/")
  */
 class BloodBankController extends AbstractController
 {
@@ -29,7 +31,7 @@ class BloodBankController extends AbstractController
     }
 
     /**
-     * @Route("/{codeName}", name="blood_bank")
+     * @Route("{codeName}", name="blood_bank")
      */
     public function index($codeName = null, SessionInterface $session, BloodBankRepository $bloodBanks)
     {
@@ -51,7 +53,8 @@ class BloodBankController extends AbstractController
     /**
      * Setup bloodbank with name and address
      * 
-     * @Route("/{id}/setup", name="blood_bank_setup")
+     * @Route("{id}/setup", name="blood_bank_setup")
+     * @Security("bloodBank.isGranted(user, 'ROLE_ADMIN')")
      */
     public function setup(Request $request, BloodBank $bloodBank, SessionInterface $session)
     {

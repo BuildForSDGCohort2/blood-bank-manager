@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\BloodBank;
 use App\Entity\BloodBankManager;
 use App\Entity\User;
+use App\Utils\BloodBankRoles;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -37,7 +38,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                             ;
         $manager->persist($bloodBank);
 
-        $bloodBankManager = new BloodBankManager;
+        $roles = BloodBankRoles::get(BloodBankRoles::ADMIN);
+        $bloodBankManager = (new BloodBankManager)->setRoles($roles);
         $manager->persist($bloodBankManager);
         
         $user->addManagedBloodBank($bloodBankManager);

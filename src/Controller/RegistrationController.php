@@ -3,21 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Utils\BloodBankRoles;
 use App\Security\EmailVerifier;
 use App\Utils\BloodBankRegister;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
+use App\Utils\BloodBankManagerRegister;
 use App\Security\AppLoginFormAuthenticator;
-use App\Utils\BloodBnakManagerRegister;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -27,14 +28,14 @@ class RegistrationController extends AbstractController
     private $emailVerifier;
     private $flashy;
     private $bloodBankRegister;
-    private $bloodBnakManagerRegister;
+    private $bloodBankManagerRegister;
 
-    public function __construct(EmailVerifier $emailVerifier, FlashyNotifier $flashy, BloodBankRegister $bloodBankRegister, BloodBnakManagerRegister $bloodBnakManagerRegister)
+    public function __construct(EmailVerifier $emailVerifier, FlashyNotifier $flashy, BloodBankRegister $bloodBankRegister, BloodBankManagerRegister $bloodBankManagerRegister)
     {
         $this->emailVerifier = $emailVerifier;
         $this->flashy = $flashy;
         $this->bloodBankRegister = $bloodBankRegister;
-        $this->bloodBnakManagerRegister = $bloodBnakManagerRegister;
+        $this->bloodBankManagerRegister = $bloodBankManagerRegister;
     }
 
     /**
@@ -79,7 +80,7 @@ class RegistrationController extends AbstractController
             );
 
             // create bloodBankManager and set this user such as admin
-            $this->bloodBnakManagerRegister->create($user, $bloodBank);
+            $this->bloodBankManagerRegister->create($user, $bloodBank, BloodBankRoles::ADMIN);
 
             // set target path after success authentication for setup blood bank
             $this->saveTargetPath(

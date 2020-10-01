@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\BloodProductStockRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/b/{codeName}/blood-products/inventory")
+ * @Route("/app/{codeName}/blood-products/inventory/")
+ * @Security("bloodBank.isGranted(user, 'ROLE_MANAGER')")
  */
 class BloodProductStockController extends AbstractController
 {
@@ -25,7 +27,7 @@ class BloodProductStockController extends AbstractController
         $this->session = $session;
     }
     /**
-     * @Route("/", name="blood_product_stock_index", methods={"GET"})
+     * @Route("", name="blood_product_stock_index", methods={"GET"})
      */
     public function index(BloodProductStockRepository $bloodProductStockRepository, BloodBank $bloodBank): Response
     {
@@ -35,7 +37,7 @@ class BloodProductStockController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="blood_product_stock_new", methods={"GET","POST"})
+     * @Route("new", name="blood_product_stock_new", methods={"GET","POST"})
      */
     public function new(Request$request, BloodBank $bloodBank): Response
     {
@@ -62,7 +64,7 @@ class BloodProductStockController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="blood_product_stock_edit", methods={"GET","POST"})
+     * @Route("{id}/edit", name="blood_product_stock_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, BloodProductStock $bloodProductStock): Response
     {
@@ -84,7 +86,7 @@ class BloodProductStockController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="blood_product_stock_delete", methods={"DELETE"})
+     * @Route("{id}", name="blood_product_stock_delete", methods={"DELETE"})
      */
     public function delete(Request $request, BloodProductStock $bloodProductStock): Response
     {
