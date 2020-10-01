@@ -96,7 +96,7 @@ class AppLoginFormAuthenticator extends AbstractFormLoginAuthenticator implement
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('dashboard'));
+        return new RedirectResponse($this->urlGenerator->generate('blood_bank'));
     }
 
     protected function getLoginUrl()

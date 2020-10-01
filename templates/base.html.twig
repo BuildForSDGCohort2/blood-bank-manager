@@ -2,11 +2,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="{% block pageName %}{% endblock %}">
         {% block body %}{% endblock %}
+
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

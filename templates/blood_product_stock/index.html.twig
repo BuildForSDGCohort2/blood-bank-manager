@@ -1,0 +1,64 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}BloodProduct index{% endblock %}
+
+{% block main %}
+<div class="row mb-1">
+    <div class="col">
+        <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codeName}) }}"
+            class="text-decorarion-none" style="color: #00000080; font-size: small;"><i class="fa fa-arrow-left"></i>
+            Products</a>
+    </div>
+</div>
+
+<h3 class="h3 font-weight-bold">Inventory</h3>
+
+<div class="my-2">
+    <a href="{{ path('blood_product_stock_new', {'codeName': app.session.get('bloodBank').codename}) }}" class="btn btn-primary shadow-sm rounded-sm">Add stock</a>
+    <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codename}) }}" class="btn btn-primary shadow-sm rounded-sm">View products</a>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Expires at</th>
+                            <th>Available</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blood_product_stock in blood_product_stocks %}
+                        <tr>
+                            <td><a href="{{ path('blood_product_edit', {'id': blood_product_stock.product.id, 'codeName': app.session.get('bloodBank').codename}) }}"
+                                    class="text-decoration-none">{{ blood_product_stock.product.name }} ml</a></td>
+
+                            <td>{{ blood_product_stock.expireAt ? blood_product_stock.expireAt | date("d-m-Y"): '' }}</td>
+                            <td>{{ blood_product_stock.quantity }} in stock</td>
+                            <td>
+                                <a href="{{ path('blood_product_stock_edit', {'id': blood_product_stock.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i
+                                        class="fa fa-eye"></i></a>
+                                <a href="{{ path('blood_product_stock_edit', {'id': blood_product_stock.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i
+                                        class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+
+{% endblock %}

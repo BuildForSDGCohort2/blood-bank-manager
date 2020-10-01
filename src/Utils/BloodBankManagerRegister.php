@@ -1,13 +1,14 @@
 <?php
 namespace App\Utils;
 
-use App\Entity\BloodBank;
-use App\Entity\BloodBankManager;
 use App\Entity\User;
+use App\Entity\BloodBank;
+use App\Utils\BloodBankRoles;
+use App\Entity\BloodBankManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class BloodBnakManagerRegister
+class BloodBankManagerRegister
 {
     private $entityManager;
 
@@ -19,11 +20,14 @@ class BloodBnakManagerRegister
     /**
      * @var User $user The user to put as blood bank administrator
      * @var BloodBank $bloodBank
+     * @var string $role The manager role in the bloodBank
      */
-    public function create(User $user, BloodBank $bloodBank)
+    public function create(User $user, BloodBank $bloodBank, string $role = BloodBankRoles::MANAGER)
     {
         $manager = new BloodBankManager;
-        // the first manager is the administrator
+        // the first manager must be the administrator
+        $roles = BloodBankRoles::get($role);
+        $manager->setRoles($roles);
         $bloodBank->addManager($manager);
         $user->addManagedBloodBank($manager);
 

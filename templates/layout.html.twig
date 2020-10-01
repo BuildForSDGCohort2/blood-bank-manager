@@ -34,11 +34,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ path('dashboard', {codeName: bloodBank.codename})}}" class="nav-link">Home</a>
+                    <a href="{{ path('dashboard', {'codeName': app.session.get('bloodBank').codename})}}" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                <!-- <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
-                </li>
+                </li> -->
             </ul>
 
             <!-- SEARCH FORM -->
@@ -111,7 +111,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ path('dashboard', {codeName: bloodBank.codename})}}" class="brand-link">
+            <a href="{{ path('dashboard', {'codeName': app.session.get('bloodBank').codename})}}" class="brand-link">
                 <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">Blood Bank Manager</span>
@@ -144,13 +144,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact nav-child-indent" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         
                         <li class="nav-item">
-                            <a href="{{ path('dashboard', {codeName: bloodBank.codename})}}" class="nav-link">
+                            <a href="{{ path('dashboard', {'codeName': app.session.get('bloodBank').codename})}}" class="nav-link">
                                 <i class="fa fa-home nav-icon"></i>
                                 <p>
                                     Home
@@ -197,7 +197,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
+                            <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codename}) }}" class="nav-link">
                                 <i class="nav-icon fas fa-heartbeat"></i>
                                 <p>
                                     Blood products
@@ -207,7 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codename}) }}" class="nav-link">
                                         <i class="nav-icon fas fa-tag"></i>
                                         <p>
                                             All products
@@ -215,7 +215,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ path('blood_product_stock_index', {'codeName': app.session.get('bloodBank').codename}) }}" class="nav-link">
                                         <i class="nav-icon fas fa-boxes"></i>
                                         <p>
                                             Inventory
@@ -282,7 +282,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
+                    <div class="row mb-1">
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark">{% block page_title %}{% endblock %}</h1>
                         </div><!-- /.col -->

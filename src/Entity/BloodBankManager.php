@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BloodBankManagerRepository;
+use App\Utils\BloodBankRoles;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BloodBankManagerRepository;
 
 /**
  * @ORM\Entity(repositoryClass=BloodBankManagerRepository::class)
@@ -28,6 +29,11 @@ class BloodBankManager
      * @ORM\JoinColumn(nullable=false)
      */
     private $bloodBank;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     public function getId(): ?int
     {
@@ -54,6 +60,22 @@ class BloodBankManager
     public function setBloodBank(?BloodBank $bloodBank): self
     {
         $this->bloodBank = $bloodBank;
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_MANAGER
+        $roles[] = BloodBankRoles::MANAGER;
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

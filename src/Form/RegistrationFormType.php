@@ -20,7 +20,12 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'attr'  =>  [
+                    'class' =>  'form-control',
+                    'placeHolder'   =>  'Email'
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -30,6 +35,10 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
+                'attr'   => [
+                    'class' =>  'form-control',
+                    'placeHolder'   =>  'Password'
+                ],
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -46,6 +55,10 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('bloodBankCodeName', TextType::class, [
+                'attr'   => [
+                    'class' =>  'form-control',
+                    'placeHolder'   =>  'Blood bank name (identifiant)'
+                ],
                 'mapped' => false,
                 'constraints' => [
                     new Regex([
