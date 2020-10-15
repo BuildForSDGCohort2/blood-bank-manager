@@ -49,7 +49,7 @@ class BloodBank
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $isSetup = false;
+    private $isSetup;
 
 
     /**
@@ -62,11 +62,18 @@ class BloodBank
      */
     private $products;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $indexed;
+
     public function __construct()
     {
         $this->managers = new ArrayCollection();
         $this->stocks = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->isSetup = false;
+        $this->indexed = true;
     }
 
     public function getId(): ?int
@@ -236,5 +243,22 @@ class BloodBank
         });
 
         return $exist;
+    }
+
+    public function getIndexed(): ?bool
+    {
+        return $this->indexed;
+    }
+
+    public function setIndexed(bool $indexed): self
+    {
+        $this->indexed = $indexed;
+
+        return $this;
+    }
+
+    public function isIndexed(): bool
+    {
+        return $this->getIndexed();
     }
 }
