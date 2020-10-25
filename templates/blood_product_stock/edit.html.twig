@@ -5,7 +5,7 @@
 {% block main %}
 <div class="row mb-1">
     <div class="col">
-        <a href="{{ path('blood_product_index', {'codeName': app.session.get('bloodBank').codeName}) }}"
+        <a href="{{ path('blood_product_stock_index', {'codeName': app.session.get('bloodBank').codeName}) }}"
             class="text-decorarion-none" style="color: #00000080; font-size: small;"><i class="fa fa-arrow-left"></i>
             Inventory</a>
     </div>

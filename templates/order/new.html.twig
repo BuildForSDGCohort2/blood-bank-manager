@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}New Order{% endblock %}
+
+{% block main %}
+<div class="row mb-1">
+    <div class="col">
+        <a href="{{ path('order_index', {'codeName': app.session.get('bloodBank').codeName}) }}"
+            class="text-decorarion-none" style="color: #00000080; font-size: small;"><i class="fa fa-arrow-left"></i>
+            Orders</a>
+    </div>
+</div>
+<h3 class="h3 font-weight-bold">Add order</h3>
+
+<div class="row">
+    <div class="col-md-6 card p-4">
+        {{ include('order/_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(function(){
+        var $container = $('div#order_products');
+        var $addLink = $('<a href="#" id="add_product" class="btn btn-default">Add product</a>');
+        
+        $container.append($addLink);
+        $addLink.on('click', function(e){
+            e.preventDefault();
+            addProduct($container);
+
+            return false;
+        });
+
+        var index = $container.find(':input').length;
+
+        if(index == 0){
+            addProduct($container);
+        }else{
+            $container.children('div').each(function(){
+                addDeletionLink($(this));
+            });
+        }
+
+        function addProduct($container) {
+            var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Product n°' + (index + 1)).replace(/__name__/g, index));
+            addDeletionLink($prototype);
+            $container.append($prototype);
+            index++;
+        }
+
+        function addDeletionLink($prototype) {
+            var $deletionLink = $('<a href="#" class="btn btn-danger mt-1">Delete <i class="fa fa-trash"></i></a>');
+            $prototype.append($deletionLink);
+            $deletionLink.on('click', function(e){
+                e.preventDefault();
+                $prototype.remove();
+
+                return false;
+            });
+        }
+    });
+</script>
+
+{% endblock %}
