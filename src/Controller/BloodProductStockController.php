@@ -12,9 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/app/{codeName}/blood-products/inventory/")
+ * @ParamConverter("bloodBank", options={"mapping": {"codeName": "codeName"}})
  * @Security("bloodBank.isGranted(user, 'ROLE_MANAGER')")
  */
 class BloodProductStockController extends AbstractController
@@ -66,7 +68,7 @@ class BloodProductStockController extends AbstractController
     /**
      * @Route("{id}/edit", name="blood_product_stock_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, BloodProductStock $bloodProductStock): Response
+    public function edit(Request $request, BloodBank $bloodBank, BloodProductStock $bloodProductStock): Response
     {
         $form = $this->createForm(BloodProductStockType::class, $bloodProductStock);
         $form->handleRequest($request);
@@ -75,7 +77,7 @@ class BloodProductStockController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blood_product_stock_index', [
-                'codeName'  =>  $this->session->get('bloodBank')->getCodeName(),
+                'codeName'  =>  $bloodBank->getCodeName(),
             ]);
         }
 

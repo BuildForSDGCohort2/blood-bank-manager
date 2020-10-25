@@ -93,6 +93,16 @@ class BloodProductStock
         return $this;
     }
 
+    public function increase(int $quantity)
+    {
+        $this->quantity += $quantity;
+    }
+
+    public function decrease(int $quantity)
+    {
+        $this->quantity -= $quantity;
+    }
+
     public function getProduct(): ?BloodProduct
     {
         return $this->product;
@@ -119,6 +129,9 @@ class BloodProductStock
 
     public function isValid(): bool
     {
+        if ($this->createdAt < $this->expireAt) {
+            return true;
+        }
         return true;
     }
 }

@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {% endblock %}
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
 
             <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
+            <!-- <form class="form-inline ml-3">
                 <div class="input-group input-group-sm">
                     <input class="form-control form-control-navbar" type="search" placeholder="Search"
                         aria-label="Search">
@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </button>
                     </div>
                 </div>
-            </form>
+            </form> -->
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -130,7 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
 
                 <!-- SidebarSearch Form -->
-                <div class="form-inline">
+                <!-- <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
                         <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                             aria-label="Search">
@@ -140,7 +140,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
@@ -159,7 +159,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
+                            <a href="{{ path('order_index', {'codeName': app.session.get('bloodBank').codeName}) }}" class="nav-link">
                                 <i class="nav-icon fas fa-shopping-basket"></i>
                                 <p>
                                     Orders
@@ -169,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ path('order_index', {'codeName': app.session.get('bloodBank').codeName}) }}" class="nav-link">
                                         <i class="nav-icon far fa-circle"></i>
                                         <p>
                                             Orders
@@ -343,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-    {% block javascrpts %}
+    {% block javascripts %}
         
     {% endblock %}
 </body>
