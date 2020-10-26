@@ -63,17 +63,23 @@ class BloodProduct
      */
     private $bloodBank;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BloodProductOrder::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $orders;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
         $this->expiresAt = new \DateTime('now');
         $this->stocks = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getName(): ?string
     {
-        return $this->type->getName() . ' (' . $this->getBloodGroup()->getCode() .') ' . $this->volume;
+        return $this->type->getName() . ' (' . $this->getBloodGroup()->getCode() . ') ' . $this->volume;
     }
 
     public function getId(): ?int
@@ -165,14 +171,30 @@ class BloodProduct
     {
         $availableStock = 0;
 
-        /** @var BloodProductStock $stock */
-        foreach ($this->getStocks() as $key => $stock) {
-            if ($stock->isValid()) {
-                $availableStock += $stock->getQuantity();
+        if ($this->getStocks()->isEmpty()) {
+            /** @var BloodProductStock $stock */
+            foreach ($this->getStocks() as $key => $stock) {
+                if ($stock->isValid()) {
+                    $availableStock += $stock->getQuantity();
+                }
             }
         }
 
+
         return $availableStock;
+    }
+
+    public function isAvailable($quantity = 1)
+    {
+        if (!$quantity == abs($quantity)) {
+            throw new \InvalidArgumentException("Incorrect quantity value", 1);
+        }
+        $quantity = abs(round((int)$quantity));
+
+        if (!$this->getAvailableStock() >= $quantity) {
+            return false;
+        }
+        return true;
     }
 
     public function addStock(BloodProductStock $stock): self
@@ -206,6 +228,37 @@ class BloodProduct
     public function setBloodBank(?BloodBank $bloodBank): self
     {
         $this->bloodBank = $bloodBank;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BloodProductOrder[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(BloodProductOrder $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(BloodProductOrder $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getProduct() === $this) {
+                $order->setProduct(null);
+            }
+        }
 
         return $this;
     }

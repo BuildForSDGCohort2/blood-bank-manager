@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block main %}
+    <h3 class="h3 font-weight-bold">Blood products orders</h3>
+    
+    <div class="my-2">
+        <a href="{{ path('order_new', {'codeName': app.session.get('bloodBank').codename}) }}"
+            class="btn btn-primary shadow-sm rounded-sm">Add order</a>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap text-center">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Created at</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td><a href="{{ path('order_show', {'id': order.id, 'codeName': app.session.get('bloodBank').codename}) }}" class="text-decoration-none">#{{ order.id }}</a></td>
+                                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>
+                                    <a
+                                        href="{{ path('order_show', {'id': order.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i
+                                            class="fa fa-eye"></i></a>
+                                    <a
+                                        href="{{ path('order_edit', {'id': order.id, 'codeName': app.session.get('bloodBank').codename}) }}"><i
+                                            class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7">no records found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+{% endblock %}

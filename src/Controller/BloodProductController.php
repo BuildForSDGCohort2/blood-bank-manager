@@ -12,9 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/app/{codeName}/blood-products/")
+ * @ParamConverter("bloodBank", options={"mapping": {"codeName": "codeName"}})
  * @Security("bloodBank.isGranted(user, 'ROLE_MANAGER')")
  */
 class BloodProductController extends AbstractController
@@ -53,7 +55,7 @@ class BloodProductController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('blood_product_index', [
-                'codeName'  =>  $this->session->get('bloodBank')->getCodeName(),
+                'codeName'  =>  $bloodBank->getCodeName(),
             ]);
         }
 
@@ -66,7 +68,7 @@ class BloodProductController extends AbstractController
     /**
      * @Route("{id}/edit", name="blood_product_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, BloodProduct $bloodProduct): Response
+    public function edit(Request $request, BloodBank $bloodBank, BloodProduct $bloodProduct): Response
     {
         $form = $this->createForm(BloodProductFormType::class, $bloodProduct);
         $form->handleRequest($request);
@@ -75,7 +77,7 @@ class BloodProductController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blood_product_index', [
-                'codeName'  =>  $this->session->get('bloodBank')->getCodeName(),
+                'codeName'  =>  $bloodBank->getCodeName(),
             ]);
         }
 
@@ -88,7 +90,7 @@ class BloodProductController extends AbstractController
     /**
      * @Route("{id}", name="blood_product_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, BloodProduct $bloodProduct): Response
+    public function delete(Request $request,BloodBank $bloodBank, BloodProduct $bloodProduct): Response
     {
         if ($this->isCsrfTokenValid('delete'.$bloodProduct->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -97,7 +99,7 @@ class BloodProductController extends AbstractController
         }
 
         return $this->redirectToRoute('blood_product_index', [
-            'codeName'  =>  $this->session->get('bloodBank')->getCodeName(),
+            'codeName'  =>  $bloodBank->getCodeName(),
         ]);
     }
 }
