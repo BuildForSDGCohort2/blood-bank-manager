@@ -49,7 +49,7 @@ class BloodBank
      * @ORM\Column(type="boolean")
      * @Assert\Type("bool")
      */
-    private $isSetup = false;
+    private $isSetup;
 
 
     /**
@@ -63,15 +63,24 @@ class BloodBank
     private $products;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $indexed;
+    
+    /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="bloodBank", orphanRemoval=true)
      */
     private $orders;
+
+    
 
     public function __construct()
     {
         $this->managers = new ArrayCollection();
         $this->stocks = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->isSetup = false;
+        $this->indexed = true;
         $this->orders = new ArrayCollection();
     }
 
@@ -274,5 +283,22 @@ class BloodBank
         }
 
         return $this;
+    }
+
+    public function getIndexed(): ?bool
+    {
+        return $this->indexed;
+    }
+
+    public function setIndexed(bool $indexed): self
+    {
+        $this->indexed = $indexed;
+
+        return $this;
+    }
+
+    public function isIndexed(): bool
+    {
+        return $this->getIndexed();
     }
 }
